@@ -5,7 +5,7 @@ with open('README.md', 'r') as input_file:
 
 setup(
     name='joblib-progress',
-    version='1.0.1',
+    version='1.0.2',
     description='A contextmanager to track progress of joblib execution',
     long_description=long_description,
     long_description_content_type='text/markdown',
