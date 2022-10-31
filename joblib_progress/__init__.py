@@ -2,7 +2,16 @@ import contextlib
 from typing import Optional
 
 import joblib
-from rich.progress import MofNCompleteColumn, Progress, SpinnerColumn, TimeElapsedColumn
+from rich.progress import (
+    BarColumn,
+    MofNCompleteColumn,
+    Progress,
+    SpinnerColumn,
+    TaskProgressColumn,
+    TextColumn,
+    TimeElapsedColumn,
+    TimeRemainingColumn,
+)
 
 
 @contextlib.contextmanager
@@ -12,9 +21,13 @@ def joblib_progress(description: Optional[str] = None, total: Optional[int] = No
 
     progress = Progress(
         SpinnerColumn(),
+        TaskProgressColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
         MofNCompleteColumn(),
-        *Progress.get_default_columns(),
         TimeElapsedColumn(),
+        "<",
+        TimeRemainingColumn(),
     )
     task_id = progress.add_task(f"[cyan]{description}", total=total)
 
