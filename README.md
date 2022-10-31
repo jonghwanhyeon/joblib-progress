@@ -9,7 +9,7 @@ A contextmanager to track progress of joblib execution.
 ```
 
 ## Usage
-### If you could know the number of items
+### If you know the number of items
 ```python
 from joblib_progress import joblib_progress
 
@@ -24,7 +24,7 @@ with joblib_progress("Calculating square...", total=10):
     Parallel(n_jobs=4)(delayed(slow_square)(number) for number in range(10))
 ```
 
-### If you couldn't know the number of items
+### If you don't know the number of items
 ```python
 with joblib_progress("Calculating square..."):
     Parallel(n_jobs=4)(delayed(slow_square)(number) for number in range(10))
