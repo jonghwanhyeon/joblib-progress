@@ -1,7 +1,6 @@
 # joblib-progress
-![joblib-progress](assets/joblib-progress.gif)
 A contextmanager to track progress of joblib execution.
-
+[![joblib-progress](https://asciinema.org/a/533665.png)](https://asciinema.org/a/533665)
 
 ## Install
 ```bash
