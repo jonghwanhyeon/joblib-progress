@@ -8,7 +8,7 @@ from rich.progress import MofNCompleteColumn, Progress, SpinnerColumn, TimeElaps
 @contextlib.contextmanager
 def joblib_progress(description: Optional[str] = None, total: Optional[int] = None):
     if description is None:
-        description = "[cyan]Processing..."
+        description = "Processing..."
 
     progress = Progress(
         SpinnerColumn(),
