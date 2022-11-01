@@ -1,9 +1,9 @@
 # joblib-progress
-A contextmanager to track progress of joblib execution.
+A contextmanager to track progress of `joblib` execution using `rich.progress`.
 [![joblib-progress](https://asciinema.org/a/Ufe9v8MKfxIzMuvlv2IwCk29l.svg)](https://asciinema.org/a/Ufe9v8MKfxIzMuvlv2IwCk29l)
 
 ## Why
-The vanilla `multiprocessing` does not work when an object to multiprocess is not `pickle-able`. The `joblib` solves this, but then its progress was not tracked nicely. This library solves that tracking issue with `joblib`.
+The vanilla `multiprocessing` does not work when an object to multiprocess is not `pickle-able`. The `joblib` solves this, but then its progress is not tracked nicely. This library solves that tracking issue with `joblib`.
 
 ## Install
 ```bash
