@@ -2,6 +2,9 @@
 A contextmanager to track progress of joblib execution.
 [![joblib-progress](https://asciinema.org/a/Ufe9v8MKfxIzMuvlv2IwCk29l.svg)](https://asciinema.org/a/Ufe9v8MKfxIzMuvlv2IwCk29l)
 
+## Why
+The vanilla `multiprocessing` does not work when an object to multiprocess is not `pickle-able`. The `joblib` solves this, but then its progress was not tracked nicely. This library solves that tracking issue with `joblib`.
+
 ## Install
 ```bash
 > pip install joblib-progreess
@@ -30,4 +33,4 @@ with joblib_progress("Calculating square..."):
 ```
 
 # Acknowledgments
-The idea of using `joblib.parallel.BatchCompletionCallBack` is inspired from https://stackoverflow.com/a/58936697/5133167
+The idea of using `joblib.parallel.BatchCompletionCallBack` is referenced from https://stackoverflow.com/a/58936697/5133167
