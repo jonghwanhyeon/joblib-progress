@@ -1,5 +1,5 @@
 # joblib-progress
-A contextmanager to track progress of `joblib` execution using `rich.progress`.
+A contextmanager to track progress of [`joblib`](https://joblib.readthedocs.io) execution using [`rich.progress`](https://rich.readthedocs.io).
 [![joblib-progress](https://asciinema.org/a/Ufe9v8MKfxIzMuvlv2IwCk29l.svg)](https://asciinema.org/a/Ufe9v8MKfxIzMuvlv2IwCk29l)
 
 ## Why
