@@ -13,10 +13,11 @@ The vanilla `multiprocessing` does not work when an object to multiprocess is no
 ## Usage
 ### If you know the number of items
 ```python
-from joblib_progress import joblib_progress
+import time
 
 from joblib import Parallel, delayed
-import time
+from joblib_progress import joblib_progress
+
 
 def slow_square(i):
     time.sleep(i / 2)
