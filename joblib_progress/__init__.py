@@ -13,6 +13,8 @@ from rich.progress import (
     TimeRemainingColumn,
 )
 
+__version__ = "1.0.2"
+
 
 @contextlib.contextmanager
 def joblib_progress(description: Optional[str] = None, total: Optional[int] = None):
