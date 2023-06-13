@@ -7,7 +7,7 @@ The vanilla `multiprocessing` does not work when an object to multiprocess is no
 
 ## Install
 ```bash
-> pip install joblib-progreess
+> pip install joblib-progress
 ```
 
 ## Usage
