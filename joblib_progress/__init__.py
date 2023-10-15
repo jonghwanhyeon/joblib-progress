@@ -35,7 +35,7 @@ def joblib_progress(description: Optional[str] = None, total: Optional[int] = No
 
     class BatchCompletionCallback(joblib.parallel.BatchCompletionCallBack):
         def __call__(self, *args, **kwargs):
-            progress.update(task_id, advance=self.batch_size)
+            progress.update(task_id, advance=self.batch_size, refresh=True)
             return super().__call__(*args, **kwargs)
 
     old_callback = joblib.parallel.BatchCompletionCallBack
