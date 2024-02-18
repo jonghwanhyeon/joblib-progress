@@ -33,18 +33,17 @@ def joblib_progress(description: Optional[str] = None, total: Optional[int] = No
     )
     task_id = progress.add_task(f"[cyan]{description}", total=total)
 
-    class BatchCompletionCallback(joblib.parallel.BatchCompletionCallBack):
-        def __call__(self, *args, **kwargs):
-            progress.update(task_id, advance=self.batch_size, refresh=True)
-            return super().__call__(*args, **kwargs)
+    print_progress = joblib.parallel.Parallel.print_progress
 
-    old_callback = joblib.parallel.BatchCompletionCallBack
+    def update_progress(self: joblib.parallel.Parallel):
+        progress.update(task_id, completed=self.n_completed_tasks, refresh=True)
+        return print_progress(self)
 
     try:
-        joblib.parallel.BatchCompletionCallBack = BatchCompletionCallback
+        joblib.parallel.Parallel.print_progress = update_progress
         progress.start()
 
         yield progress
     finally:
         progress.stop()
-        joblib.parallel.BatchCompletionCallBack = old_callback
+        joblib.parallel.Parallel.print_progress = print_progress
