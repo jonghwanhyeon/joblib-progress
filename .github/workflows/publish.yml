@@ -1,0 +1,105 @@
+name: Publish 📡 Python 🐍 distributions 📦
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  lint:
+    name: Lint 🧹 and Check 🧐 Python 🐍 package 🗂️
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup 🛠️ Python 🐍
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install 🛠️ dependencies 📚
+        run: |
+          pip install --upgrade pip
+          pip install --requirement=requirements-dev.txt
+
+      - name: Lint 🧹 with Ruff ⚡️
+        run: ruff check --output-format=github .
+
+  build:
+    name: Build 🏗️ distributions 📦
+    needs: [lint]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup 🛠️ Python 🐍
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Build 🏗️ a source distribution 🗃️ and a binary wheel 🛞
+        run: pipx run build --outdir=distributions
+
+      - name: Upload 📤 the built distributions 📦
+        uses: actions/upload-artifact@v4
+        with:
+          name: distributions
+          path: distributions/
+
+  publish-to-pypi:
+    name: Publish 📡 Python 🐍 distributions 📦 to PyPI 🌐
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: https://pypi.org/p/joblib-progress
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download 📥 all the distributions 📦
+        uses: actions/download-artifact@v4
+        with:
+          pattern: distributions
+          path: distributions/
+          merge-multiple: true
+
+      - name: Publish 📡 distributions 📦 to PyPI 🌐
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: distributions/
+
+  upload-to-github-release:
+    name: Upload 📤 Python 🐍 distributions 📦 to GitHub Release 🚀
+    needs: [publish-to-pypi]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Download 📥 all the distributions 📦
+        uses: actions/download-artifact@v4
+        with:
+          pattern: distributions
+          path: distributions/
+          merge-multiple: true
+
+      - name: Sign 🔑 the distributions 📦 with Sigstore
+        uses: sigstore/gh-action-sigstore-python@v3.0.0
+        with:
+          inputs: |
+            distributions/*.tar.gz
+            distributions/*.whl
+
+      - name: Create 📂 GitHub Release 🚀
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: gh release --repo="${{ github.repository }}" create "${{ github.ref_name }}"
+
+      - name: Upload 📤 distributions 📦 and signatures 🔏 to GitHub Release 🚀
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: gh release --repo="${{ github.repository }}" upload "${{ github.ref_name }}" distributions/**
