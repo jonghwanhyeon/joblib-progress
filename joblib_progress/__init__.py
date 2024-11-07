@@ -2,6 +2,7 @@ import contextlib
 from typing import Optional
 
 import joblib
+from rich.console import Console
 from rich.progress import (
     BarColumn,
     MofNCompleteColumn,
@@ -17,7 +18,11 @@ __version__ = "1.0.5"
 
 
 @contextlib.contextmanager
-def joblib_progress(description: Optional[str] = None, total: Optional[int] = None):
+def joblib_progress(
+    description: Optional[str] = None,
+    total: Optional[int] = None,
+    console: Optional[Console] = None,
+):
     if description is None:
         description = "Processing..."
 
@@ -30,6 +35,7 @@ def joblib_progress(description: Optional[str] = None, total: Optional[int] = No
         TimeElapsedColumn(),
         "<",
         TimeRemainingColumn(),
+        console=console,
     )
     task_id = progress.add_task(f"[cyan]{description}", total=total)
 
